@@ -1,3 +1,8 @@
+"""
+FastAPI web app that exposes geocoding endpoint.
+"""
+
+
 import requests
 from fastapi import FastAPI
 
@@ -9,11 +14,17 @@ GEOCODE_URL = "https://geocode.maps.co/search"
 
 @app.get("/")
 def root():
+    """Return a simple hello message at the root URL."""
     return {"message": "Hello World"}
 
 
 @app.post("/geocode/{city}/{state}")
-def geocode(city: str, state: str):
+def geocode(city: str, state: str)-> dict:
+    """Look up latitude and longitude for a US city and state.
+
+    Calls the geocode.maps.co API with the given city and state,
+    then returns the coordinates of the first result.
+    """
     query = f"{city}, {state}"
 
     response = requests.get(
